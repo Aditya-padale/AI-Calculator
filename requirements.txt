@@ -1,0 +1,6 @@
+streamlit
+streamlit-drawable-canvas
+langchain
+langchain-google-genai
+python-dotenv
+pillow
