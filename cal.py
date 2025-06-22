@@ -6,22 +6,18 @@ import base64
 from dotenv import load_dotenv
 import os
 
-# Load Gemini API Key
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if not GOOGLE_API_KEY:
     st.error("Please add your GOOGLE_API_KEY to the .env file")
     st.stop()
 
-# LangChain + Gemini
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema.messages import HumanMessage
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
 
-# Streamlit setup
 st.set_page_config(page_title="AI Canvas", layout="wide")
 
-# --- Custom CSS ---
 st.markdown("""
     <style>
         #MainMenu, header, footer {visibility: hidden;}
@@ -32,7 +28,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- Session state initialization ---
 if "canvas_key" not in st.session_state:
     st.session_state.canvas_key = "canvas_1"
 if "answer" not in st.session_state:
@@ -46,7 +41,6 @@ if "pen_color" not in st.session_state:
 if "stroke_width" not in st.session_state:
     st.session_state.stroke_width = 4
 
-# --- Toolbar ---
 col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 1, 1, 2, 1, 1, 3])
 with col1:
     if st.button("✏️ Pen"):
@@ -67,7 +61,6 @@ with col5:
 with col6:
     run = st.button("🚀 Solve")
 
-# --- JS for Enter Key Trigger ---
 import streamlit.components.v1 as components
 components.html("""
     <script>
@@ -82,7 +75,6 @@ components.html("""
     </script>
 """, height=0)
 
-# --- Canvas setup ---
 stroke_color = "#000000" if st.session_state.tool_mode == "eraser" else st.session_state.pen_color
 stroke_width = st.session_state.stroke_width
 
@@ -97,7 +89,6 @@ canvas_result = st_canvas(
     key=st.session_state.canvas_key
 )
 
-# --- Gemini AI Solve ---
 if (run or st.session_state.enter_trigger) and canvas_result.image_data is not None:
     st.session_state.enter_trigger = False
 
@@ -122,12 +113,10 @@ if (run or st.session_state.enter_trigger) and canvas_result.image_data is not N
 
     st.session_state.answer = response.content.strip()
 
-# --- Display Gemini Answer ---
 if st.session_state.answer:
     st.subheader("🧠 Gemini's Answer")
     st.markdown(f"```markdown\n{st.session_state.answer}\n```")
 
-# --- Fun & Beautiful Footer ---
 st.markdown(
     '''<div style="text-align:center; margin-top:40px; font-size:18px; color:#888;">
         Made with ☕, code, and a dash of genius by <b>Aditya Padale</b> 😎<br>
