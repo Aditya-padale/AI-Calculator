@@ -51,7 +51,7 @@ An intelligent, full-screen canvas web app where you can **draw anything** — m
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/ai-canvas-interpreter.git
+git clone https://github.com/Aditya-padale/ai-canvas-interpreter.git
 cd ai-canvas-interpreter
 ````
 
